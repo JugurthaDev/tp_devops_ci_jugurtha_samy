@@ -30,10 +30,22 @@ describe("Service de Pokémon", () => {
   describe("getPokemonList", () => {
     it("devrait retourner une liste de Pokémon", async () => {
       const mockPokemonList: Pokemon[] = [
-        { id: 1, name: "Bulbizarre", sprite: "sprite1.png", types: ["Plante", "Poison"] },
-        { id: 2, name: "Herbizarre", sprite: "sprite2.png", types: ["Plante", "Poison"] },
+        {
+          id: 1,
+          name: "Bulbizarre",
+          sprite: "sprite1.png",
+          types: ["Plante", "Poison"],
+        },
+        {
+          id: 2,
+          name: "Herbizarre",
+          sprite: "sprite2.png",
+          types: ["Plante", "Poison"],
+        },
       ];
-      vi.mocked(pokeApiClient.getPokemonList).mockResolvedValue(mockPokemonList);
+      vi.mocked(pokeApiClient.getPokemonList).mockResolvedValue(
+        mockPokemonList,
+      );
 
       const result = await pokemonService.getPokemonList();
 
@@ -45,7 +57,14 @@ describe("Service de Pokémon", () => {
   describe("getUserTeam", () => {
     it("devrait retourner l'équipe de l'utilisateur", () => {
       const userId = "user1";
-      const mockTeam: Pokemon[] = [{ id: 1, name: "Bulbizarre", sprite: "sprite1.png", types: ["Plante", "Poison"] }];
+      const mockTeam: Pokemon[] = [
+        {
+          id: 1,
+          name: "Bulbizarre",
+          sprite: "sprite1.png",
+          types: ["Plante", "Poison"],
+        },
+      ];
       pokemonService["userTeams"].set(userId, mockTeam);
 
       const result = pokemonService.getUserTeam(userId);
@@ -65,7 +84,14 @@ describe("Service de Pokémon", () => {
   describe("clearTeam", () => {
     it("devrait vider l'équipe de l'utilisateur", () => {
       const userId = "user1";
-      const mockTeam: Pokemon[] = [{ id: 1, name: "Bulbizarre", sprite: "sprite1.png", types: ["Plante", "Poison"] }];
+      const mockTeam: Pokemon[] = [
+        {
+          id: 1,
+          name: "Bulbizarre",
+          sprite: "sprite1.png",
+          types: ["Plante", "Poison"],
+        },
+      ];
       pokemonService["userTeams"].set(userId, mockTeam);
 
       pokemonService.clearTeam(userId);
@@ -77,7 +103,12 @@ describe("Service de Pokémon", () => {
   describe("togglePokemonInTeam", () => {
     it("devrait ajouter un Pokémon à l'équipe de l'utilisateur s'il n'est pas déjà présent", () => {
       const userId = "user1";
-      const pokemon: Pokemon = { id: 1, name: "Bulbizarre", sprite: "sprite1.png", types: ["Plante", "Poison"] };
+      const pokemon: Pokemon = {
+        id: 1,
+        name: "Bulbizarre",
+        sprite: "sprite1.png",
+        types: ["Plante", "Poison"],
+      };
 
       const result = pokemonService.togglePokemonInTeam(userId, pokemon);
 
@@ -87,7 +118,12 @@ describe("Service de Pokémon", () => {
 
     it("devrait retirer un Pokémon de l'équipe de l'utilisateur s'il est déjà présent", () => {
       const userId = "user1";
-      const pokemon: Pokemon = { id: 1, name: "Bulbizarre", sprite: "sprite1.png", types: ["Plante", "Poison"] };
+      const pokemon: Pokemon = {
+        id: 1,
+        name: "Bulbizarre",
+        sprite: "sprite1.png",
+        types: ["Plante", "Poison"],
+      };
       pokemonService.togglePokemonInTeam(userId, pokemon);
 
       const result = pokemonService.togglePokemonInTeam(userId, pokemon);
@@ -98,14 +134,39 @@ describe("Service de Pokémon", () => {
 
     it("ne devrait pas ajouter un Pokémon si l'équipe a déjà 6 Pokémon", () => {
       const userId = "user1";
-      const pokemon: Pokemon = { id: 7, name: "Carapuce", sprite: "sprite7.png", types: ["Eau"] };
+      const pokemon: Pokemon = {
+        id: 7,
+        name: "Carapuce",
+        sprite: "sprite7.png",
+        types: ["Eau"],
+      };
       const mockTeam: Pokemon[] = [
-        { id: 1, name: "Bulbizarre", sprite: "sprite1.png", types: ["Plante", "Poison"] },
-        { id: 2, name: "Herbizarre", sprite: "sprite2.png", types: ["Plante", "Poison"] },
-        { id: 3, name: "Florizarre", sprite: "sprite3.png", types: ["Plante", "Poison"] },
+        {
+          id: 1,
+          name: "Bulbizarre",
+          sprite: "sprite1.png",
+          types: ["Plante", "Poison"],
+        },
+        {
+          id: 2,
+          name: "Herbizarre",
+          sprite: "sprite2.png",
+          types: ["Plante", "Poison"],
+        },
+        {
+          id: 3,
+          name: "Florizarre",
+          sprite: "sprite3.png",
+          types: ["Plante", "Poison"],
+        },
         { id: 4, name: "Salamèche", sprite: "sprite4.png", types: ["Feu"] },
         { id: 5, name: "Reptincel", sprite: "sprite5.png", types: ["Feu"] },
-        { id: 6, name: "Dracaufeu", sprite: "sprite6.png", types: ["Feu", "Vol"] },
+        {
+          id: 6,
+          name: "Dracaufeu",
+          sprite: "sprite6.png",
+          types: ["Feu", "Vol"],
+        },
       ];
       pokemonService["userTeams"].set(userId, mockTeam);
 
