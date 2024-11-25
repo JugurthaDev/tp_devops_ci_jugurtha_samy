@@ -10,7 +10,7 @@ on:
 
 jobs:
   docker_image:
-    name: Build and Push Docker Image
+    name: Build and Push Docker-Image
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
