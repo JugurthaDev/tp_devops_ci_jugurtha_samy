@@ -16,7 +16,16 @@ jobs:
       - name: Install Yarn
         run: yarn install
 
-      - name: Yarn lint
+      - name: Usage Yarn Lint
         run: yarn lint
+
+      - name: Usage Yarn Test
+        run: yarn tests
+    
+      - name: Build the project
+        run: yarn build
+
+      - name: Install mkdocks - pip
+        run: pip install mkdocs
 
 
