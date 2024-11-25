@@ -1,8 +1,10 @@
-name: Lint
-run-name: ${{ github.actor }} is testing out Lint 🚀
+name: CI Workflow
+run-name: ${{ github.actor }} is testing out CI Workflow 🚀
 on: [push]
+
 jobs:
-  run-lint:
+  setup:
+    name: Setup
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
@@ -13,22 +15,63 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install Yarn
+      - name: Cache Node Modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
         run: yarn install
 
-      - name: Usage Yarn Lint
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - name: Run ESLint
         run: yarn lint
 
-      - name: Usage Yarn Format check
-        run: yarn format:check
-
-      - name: Usage Yarn Test
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - name: Run tests
         run: yarn test
-    
-      - name: Build the project
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - name: Build project
         run: yarn build
 
-      - name: Install mkdocks - pip
+  format:
+    name: Format
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - name: Check code format
+        run: yarn format:check
+
+  docs:
+    name: Build Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install mkdocs
         run: pip install mkdocs
 
-
+      - name: Build documentation
+        run: mkdocs build
