@@ -19,8 +19,11 @@ jobs:
       - name: Usage Yarn Lint
         run: yarn lint
 
+      - name: Usage Yarn Format check
+        run: yarn format:check
+
       - name: Usage Yarn Test
-        run: yarn tests
+        run: yarn test
     
       - name: Build the project
         run: yarn build
